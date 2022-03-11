@@ -34,7 +34,22 @@ describe('notesView', () => {
         const buttonEl = document.querySelector('#add-note-button');
         buttonEl.click();
         view.displayNotes()
-        expect(document.querySelectorAll('.note')[1].innerText).toBe('First note');
+        expect(document.querySelectorAll('.note')[0].innerText).toBe('First note');
+    })
+
+    describe ('displayNotes', () => {
+        it('when called twice, it displays the correct number of notes', () => {
+            document.body.innerHTML = fs.readFileSync('./index.html'); 
+
+            const model = new NotesModel();
+            const view = new NotesView(model);
+            model.addNote('Note one.');
+            model.addNote('Note two.');
+            view.displayNotes();
+            view.displayNotes();
+    
+            expect(document.querySelectorAll('div.note').length).toBe(2);
+        })
     })
 });
 
